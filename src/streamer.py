@@ -41,7 +41,7 @@ class pStream:
         return self._builder((x for x in self.STR if proposition(x)))
 
     def take(self,number):
-        return self._builder(self._take(self.STR,number))
+        return self._builder( self._take(iter(self.STR),number))
 
 ### CONSUMERS
     def print_stream(self):
