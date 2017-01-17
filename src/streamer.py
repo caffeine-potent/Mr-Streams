@@ -10,6 +10,10 @@ class pStream:
             for value in function(thing):
                 yield value
 
+    def _take(self,generator, number):
+        for x in range(number):
+            yield next(generator)
+
 ###OVERRIDES
     def next(self):
         return next(self.STR)
@@ -30,6 +34,9 @@ class pStream:
 ### LIMITERS
     def filter(self,proposition):
         return self._builder((x for x in self.STR if proposition(x)))
+
+    def take(self,number):
+        return self._builder(self._take(self.STR,number))
 
 ### CONSUMERS
     def print_stream(self):
