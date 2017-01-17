@@ -27,6 +27,10 @@ class pStream:
     def flatmap(self, function):
         return self._builder(self._flatten(self.STR, function))
 
+### LIMITERS
+    def filter(self,proposition):
+        return self._builder((x for x in self.STR if proposition(x)))
+
 ### CONSUMERS
     def print_stream(self):
         print(list(self.STR))
