@@ -16,6 +16,11 @@ class pStream:
         for x in range(number):
             yield next(generator)
 
+    def _tap(self, generator, function):
+        for x in generator:
+            function(x)
+            yield x
+
 ###OVERRIDES
     def next(self):
         return next(self.STR)
@@ -42,6 +47,10 @@ class pStream:
 
     def take(self,number):
         return self._builder( self._take(iter(self.STR),number))
+
+### PASSIVE
+    def tap(self, function):
+        return self._builder( self._tap(self.STR, function))
 
 ### CONSUMERS
     def print_stream(self):
