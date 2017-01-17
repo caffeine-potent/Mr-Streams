@@ -1,3 +1,5 @@
+from functools import partial
+
 class pStream:
     
 ###PRIVATE FUNCTIONS
@@ -27,6 +29,9 @@ class pStream:
 ### TRANSFORMS
     def map(self,function):
         return self._builder(map(function, self.STR))
+
+     def cmap(self, function,*args, **kwargs):
+        return self.map(partial(function,*args, **kwargs))
 
     def flatmap(self, function):
         return self._builder(self._flatten(self.STR, function))
