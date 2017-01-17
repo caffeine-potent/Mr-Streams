@@ -4,7 +4,11 @@ class pStream:
     def _builder(self, expression):
         self.STR = expression
         return self
-
+        
+    def _flatten(self,generator,function):
+        for thing in generator:
+            for value in function(thing):
+                yield value
 
 ###OVERRIDES
     def next(self):
@@ -16,9 +20,14 @@ class pStream:
     def __iter__(self):
         return iter(self.STR)
 
+
 ### TRANSFORMS
     def map(self,function):
         return self._builder(map(function, self.STR))
+
+    def flatmap(self, function):
+        return self._builder(self._flatten(self.STR, function))
+
 
 ### CONSUMERS
 
