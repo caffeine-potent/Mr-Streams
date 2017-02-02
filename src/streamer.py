@@ -59,6 +59,9 @@ class pStream:
     def consume(self, function):
         function(self.STR)
 
+    def cconsume(self, function,*args,**kwargs):
+        self.consume(partial(function,*args,**kwargs))
+
     def drain(self):
         for x in self.STR:
             pass
