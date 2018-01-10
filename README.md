@@ -1,4 +1,4 @@
-##Map Reduce Filter Chain
+## Map Reduce Filter Chain
 
 If you're familiar with the concept of map-reduce or Apache spark, then you may also be familiar with the workings of this library.  
   
@@ -16,7 +16,7 @@ Consumers:
 
 - `print_stream()`- iterates through all values of the stream and prints them. 
 
-##Usage
+## Usage
 
 Listed below are some over complicated solutions to trivial problems.  
 
