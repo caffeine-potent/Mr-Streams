@@ -19,3 +19,6 @@ class TestBareStream(unittest.TestCase):
         _ = ms.stream([1, 2, 3, 4])
         _.drain()
 
+    def test_cast_to_iter(self):
+        _ = ms.stream([1, 2, 3, 4])
+        _ = iter(_)
