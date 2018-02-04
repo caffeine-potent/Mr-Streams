@@ -18,3 +18,9 @@ class TestMisc(unittest.TestCase):
                 .flatmap( double)\
                 .flatmap(repeat_n_times,  n = 2)
         _.drain()
+
+    def test_embedded(self):
+        stream_1 = ms.stream(range(10))
+        stream_2 = ms.stream(stream_1)
+        stream_3 = ms.stream(stream_2)
+        stream_3.drain()
