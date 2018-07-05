@@ -1,7 +1,6 @@
 from functools import partial, reduce
-
-# from mr_streams import IllegalStreamOperationException
 from  mr_streams.exceptions import IllegalStreamOperationException
+
 class EOL():
     pass
 
@@ -46,7 +45,6 @@ class Streamer:
             return a
 
         _initial = _function(a,b)
-
         _curried_function = partial(_function,  *args, **kwargs)
         return reduce(_curried_function, self.structure, _initial)
 
@@ -60,6 +58,16 @@ class Streamer:
                 yield function(x)
         _curried_function = partial(_function, *args, **kwargs)
         return self._build(_tap(_curried_function, self.structure))
+
+    def _take(self, n, iterable):
+        for i, val in enumerate(iterable):
+            if i == n:
+                break
+            else:
+                yield val
+
+    def take(self, n):
+        return self._build(self._take(n, self.structure))
 
     def drain(self):
         for _ in self.structure:
