@@ -21,4 +21,3 @@ class TestTap(unittest.TestCase):
     def test_drain(self):
         _ = ms.stream([1, 2, 3, 4]).tap(tap_func)
         _.drain()
-

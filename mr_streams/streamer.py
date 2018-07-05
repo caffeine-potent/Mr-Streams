@@ -1,5 +1,7 @@
 from functools import partial, reduce
 
+# from mr_streams import IllegalStreamOperationException
+from  mr_streams.exceptions import IllegalStreamOperationException
 class EOL():
     pass
 
@@ -34,9 +36,19 @@ class Streamer:
         _curried_function = partial(_function, *args, **kwargs)
         return self._build(self._flatten(self.structure, _curried_function))
 
-    def reduce(self, _function, *args, **kwargs):
-        _curried_function = partial(_function, *args, **kwargs)
-        return reduce(_curried_function)
+    def reduce(self, _function, initializer = None, *args, **kwargs):
+        a = next(self.structure, self.eol)
+        if a is self.eol:
+            raise IllegalStreamOperationException("Tying to reduce reducing a stream with no values")
+
+        b = next(self.structure, self.eol) if initializer is None else initializer
+        if b is self.eol and initializer is None:
+            return a
+
+        _initial = _function(a,b)
+
+        _curried_function = partial(_function,  *args, **kwargs)
+        return reduce(_curried_function, self.structure, _initial)
 
     def filter(self, _function, *args, **kwargs):
         _curried_function = partial(_function, *args, **kwargs)
@@ -52,3 +64,7 @@ class Streamer:
     def drain(self):
         for _ in self.structure:
             continue
+
+
+if __name__ == "__main__":
+    pass
