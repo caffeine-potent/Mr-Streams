@@ -69,6 +69,15 @@ class Streamer:
     def take(self, n):
         return self._build(self._take(n, self.structure))
 
+
+    def _drop(self, n, iterable):
+        for i, val in enumerate(iterable):
+            if i >= n :
+                yield val
+
+    def drop(self, n):
+        return self._build(self._drop(n, self.structure))
+
     def drain(self):
         for _ in self.structure:
             continue

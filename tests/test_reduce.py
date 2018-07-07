@@ -5,7 +5,7 @@ import unittest
 def sum_reduction(x,y):
     return x + y
 
-class TestMisc(unittest.TestCase):
+class TestReduce(unittest.TestCase):
 
     def test_sum_reduce(self):
         _ = ms.stream([1,2,3,4,5]).reduce(sum_reduction)
