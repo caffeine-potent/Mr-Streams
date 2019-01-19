@@ -36,17 +36,18 @@ class Streamer:
         return self._build(self._flatten(self.structure, _curried_function))
 
     def reduce(self, _function, initializer = None, *args, **kwargs):
-        a = next(self.structure, self.eol)
+        struct = iter(self.structure)
+        a = next(struct, self.eol)
         if a is self.eol:
             raise IllegalStreamOperationException("Tying to reduce reducing a stream with no values")
 
-        b = next(self.structure, self.eol) if initializer is None else initializer
+        b = next(struct, self.eol) if initializer is None else initializer
         if b is self.eol and initializer is None:
             return a
 
         _initial = _function(a,b)
         _curried_function = partial(_function,  *args, **kwargs)
-        return reduce(_curried_function, self.structure, _initial)
+        return reduce(_curried_function, struct, _initial)
 
     def filter(self, _function, *args, **kwargs):
         _curried_function = partial(_function, *args, **kwargs)
@@ -55,7 +56,8 @@ class Streamer:
     def tap(self, _function, *args, **kwargs):
         def _tap(function, iterable):
             for x in iterable:
-                yield function(x)
+                function(x)
+                yield x
         _curried_function = partial(_function, *args, **kwargs)
         return self._build(_tap(_curried_function, self.structure))
 
